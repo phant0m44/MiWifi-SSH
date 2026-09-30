@@ -129,6 +129,21 @@ To run it automatically on every reboot, add the following line via `crontab -e`
 
 Alternatively, call the script from `/etc/rc.local` before `exit 0`.
 
+## Verification
+ 
+After connecting, confirm the session and the applied changes:
+ 
+```bash
+uname -a
+cat /etc/openwrt_release
+iwinfo | grep Tx-Power
+```
+ 
+`uname -a` and `/etc/openwrt_release` confirm you are on the router's OpenWrt-based system, while `Tx-Power: 23 dBm` on the 5 GHz radios confirms the region change from [step 2](#2-unlocking-wi-fi-transmit-power) took effect.
+ 
+![Authenticated SSH session on the router](./ssh-login.png)
+
+
 ## Usage
 
 After completing the installation steps, the router is accessible over SSH with no root password, runs with increased Wi-Fi transmit power, and has the performance tweaks applied. Re-running `auto_tweak.sh` is safe — the script is idempotent and applies the same settings on every run.
