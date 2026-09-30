@@ -25,14 +25,20 @@ This repository documents a method for gaining SSH access to the Xiaomi AX3000T 
 All steps apply to a device you own and are intended for home use. The instructions have been verified on stock firmware version 1.0.103 (Stable, MiWiFi Global) with an Arch Linux client.
 
 ## Security
-
+ 
 Changing the regulatory region, kernel parameters, and stock firmware services falls outside the officially supported use of the device. Possible consequences include:
-
+ 
 - loss of manufacturer warranty;
 - the device becoming unresponsive ("bricked"), requiring recovery via TFTP/UART;
 - violation of local regulations on permitted Wi-Fi transmit power if the region code does not match your jurisdiction.
-
 All actions are performed at your own risk. Back up your current configuration (nvram, uci) where possible before proceeding.
+ 
+`enable-ssh.sh` removes the root password entirely (`passwd -d root`), so anyone on the local network can open a root shell over SSH while Dropbear is running. On stock firmware this change does **not** survive a reboot — the password is cleared again on every boot, along with any password you set manually with `passwd`. To reduce exposure:
+ 
+- set a root password with `passwd` right after connecting, and re-run it after every reboot (or persist it, e.g. by calling `passwd` from your `auto_tweak.sh`/crontab startup routine with a hashed password instead of leaving it empty);
+- disable Dropbear (`/etc/init.d/dropbear stop`) when you are not actively using SSH;
+- avoid exposing the router's SSH port outside your LAN (no port forwarding, no WAN-side access).
+
 
 ## Install
 
